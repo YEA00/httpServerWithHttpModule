@@ -1,8 +1,8 @@
+// app.js
 const http = require("http"); 
 const server = http.createServer();
 
 const users = [
-
   {
     id: 1,
     name: "Rebekah Johnson",
@@ -40,18 +40,19 @@ const httpRequestListener = function (request, response) {
   if (method === "GET") {
     if (url === "/get_users") {
       response.writeHead(200, { "Content-Type": "application/json" });
-      response.end(JSON.stringify({ message: users }));
+      response.end(JSON.stringify({ message: 'users' }));
     }
-    
+    if (url === '/get_posts') {
+      response.writeHead(200, { "Content-Type": "application/json" });
+      response.end(JSON.stringify({ data: 'posts' }));
+    }
   } else if (method === "POST") {
-    
     if (url === "/users") {
-      let body = ""; 
+      let body = "";
       request.on("data", (data) => {
         const user = JSON.parse(data); 
 
         users.push({
-          
           id: user.id,
           name: user.name,
           email: user.email,
@@ -59,24 +60,37 @@ const httpRequestListener = function (request, response) {
         });
       }); 
 
-    
       request.on("end", () => {
-        
-
-        response.end(JSON.stringify({ message: "userCreated" })); // (9)
+        response.end(JSON.stringify({ message: ' userCreated ' })); // (9)
       });
     }
-      
+    if (url === '/posts') {
+      let body = "";
+      request.on("data", (data) => {
+        const post = JSON.parse(data);
+
+        posts.push({
+          userID: post.userID,
+          userName: post.userName,
+          postingId: post.postingId,
+          postingTitle: post.postingTitle,
+          postingContent: post.postingContent,
+        });
+      }); 
+
       request.on("end", () => {
-        // (6)
-        response.end(JSON.stringify({ message: "postCreated" })); // (9)
+        
+        response.end(JSON.stringify({ message: ' postCreated ' }));
       });
     }
   }
-
+};
 
 server.on("request", httpRequestListener);
 
-server.listen(8000, "127.0.0.1", function () {
-  console.log("Listening to requests on port 8000");
+const IP = '127.0.0.1'
+const PORT = 8000
+
+  server.listen(PORT, IP, function() {
+    console.log(`Listening to requests on ip ${IP} & port ${PORT}`);
 });

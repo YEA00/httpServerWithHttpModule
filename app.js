@@ -40,7 +40,7 @@ const httpRequestListener = function (request, response) {
   if (method === "GET") {
     if (url === "/get_users") {
       response.writeHead(200, { "Content-Type": "application/json" });
-      response.end(JSON.stringify({ message: users }));
+      response.end(JSON.stringify({ message: 'users' }));
     }
     
   } else if (method === "POST") {
@@ -63,13 +63,13 @@ const httpRequestListener = function (request, response) {
       request.on("end", () => {
         
 
-        response.end(JSON.stringify({ message: "userCreated" })); // (9)
+        response.end(JSON.stringify({ message: " userCreated " }));
       });
     }
       
       request.on("end", () => {
         // (6)
-        response.end(JSON.stringify({ message: "postCreated" })); // (9)
+        response.end(JSON.stringify({ message: " postCreated " }));
       });
     }
   }
